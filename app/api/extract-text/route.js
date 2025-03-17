@@ -62,7 +62,10 @@ export async function POST(request) {
                     {
                         role: "user",
                         content: [
-                            { type: "text", text: "この画像に写っているテキストを抽出して、そのままの形式で出力してください。余計な説明は不要です。" },
+                            {
+                                type: "text",
+                                text: "この画像のテキストを抽出してください。特に次のフォーマットに注目してください:\n1. 注文番号（例：1234-5678-9012）\n2. お届け日時（例：5月10日）\n余計な説明は不要です。"
+                            },
                             {
                                 type: "image_url",
                                 image_url: {
@@ -77,14 +80,16 @@ export async function POST(request) {
 
             // レスポンスからテキストを取得
             const extractedText = response.choices[0]?.message?.content || '';
+            console.log('抽出されたテキスト:', extractedText); // デバッグ用
 
-            // 注文番号パターン（4桁-4桁-4桁）を抽出
-            const orderNumberPattern = /\b\d{4}-\d{4}-\d{4}\b/;
+            // 注文番号のデバッグ
+            const orderNumberPattern = /\b\d{3,4}[-\s]?\d{3,4}[-\s]?\d{3,4}\b/;
             const orderNumberMatch = extractedText.match(orderNumberPattern);
+            console.log('注文番号マッチ:', orderNumberMatch); // デバッグ用
             const orderNumber = orderNumberMatch ? orderNumberMatch[0] : '';
 
             // お届け日時パターン（○月○日）を抽出
-            const deliveryDatePattern = /\d+月\d+日/;
+            const deliveryDatePattern = /\d{1,2}[\/月]\d{1,2}[\/日]?/;
             const deliveryDateMatch = extractedText.match(deliveryDatePattern);
             const deliveryDate = deliveryDateMatch ? deliveryDateMatch[0] : '';
 

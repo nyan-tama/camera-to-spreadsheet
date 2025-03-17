@@ -20,10 +20,15 @@ export default function TextExtractionDisplay({ text, isLoading, error, orderNum
 
             {!isLoading && !error && text && (
                 <div>
-                    {orderNumber && (
+                    {orderNumber ? (
                         <div className="extracted-info">
                             <h4>注文番号:</h4>
                             <p>{orderNumber}</p>
+                        </div>
+                    ) : (
+                        <div className="extracted-info">
+                            <h4>注文番号:</h4>
+                            <p className="text-muted">認識できませんでした</p>
                         </div>
                     )}
 
