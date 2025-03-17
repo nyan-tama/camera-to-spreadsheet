@@ -8,12 +8,13 @@ export default function CameraComponent({ onCapture }) {
     const [imageData, setImageData] = useState(null);
     const [cameraError, setCameraError] = useState(null);
 
-    // カメラ設定の品質を向上
+    // カメラ設定を修正
     const videoConstraints = {
-        width: 1280,
-        height: 720,
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
         facingMode: "environment",
-        // 画質の設定を追加
+        aspectRatio: 16 / 9,
+        // 画質の設定を維持
         advanced: [
             { exposureMode: "auto" },
             { focusMode: "continuous" }
@@ -72,9 +73,14 @@ export default function CameraComponent({ onCapture }) {
                         screenshotFormat="image/jpeg"
                         videoConstraints={videoConstraints}
                         onUserMediaError={handleCameraError}
+                        className="webcam-video"
                     />
                 ) : (
-                    <img src={imageData} alt="撮影画像" />
+                    <img
+                        src={imageData}
+                        alt="撮影画像"
+                        className="captured-image"
+                    />
                 )}
             </div>
 

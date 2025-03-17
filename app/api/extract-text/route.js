@@ -28,7 +28,7 @@ export async function POST(request) {
 
         // OpenAI Vision APIへのリクエスト
         const response = await openai.chat.completions.create({
-            model: "gpt-4-vision-preview",
+            model: "gpt-4o",
             messages: [
                 {
                     role: "user",
