@@ -8,13 +8,12 @@ export default function CameraComponent({ onCapture }) {
     const [imageData, setImageData] = useState(null);
     const [cameraError, setCameraError] = useState(null);
 
-    // カメラ設定を修正
+    // 高解像度カメラ設定（1:1比率維持）
     const videoConstraints = {
-        width: { ideal: 1280 },
-        height: { ideal: 720 },
+        width: { ideal: 1080 }, // 720→1080に向上
+        height: { ideal: 1080 }, // 同じく1080に
         facingMode: "environment",
-        aspectRatio: 16 / 9,
-        // 画質の設定を維持
+        aspectRatio: 1, // 1:1比率を維持
         advanced: [
             { exposureMode: "auto" },
             { focusMode: "continuous" }
@@ -25,8 +24,12 @@ export default function CameraComponent({ onCapture }) {
     const handleCapture = useCallback(() => {
         if (webcamRef.current) {
             try {
-                // より高品質なキャプチャを設定
-                const imageSrc = webcamRef.current.getScreenshot({ width: 1280, height: 720, quality: 0.95 });
+                // 高解像度キャプチャ設定
+                const imageSrc = webcamRef.current.getScreenshot({
+                    width: 1080,   // 720→1080に向上
+                    height: 1080,  // 同じく1080に
+                    quality: 0.95  // 高品質維持
+                });
                 if (imageSrc) {
                     setImageData(imageSrc);
                     if (onCapture) {
