@@ -8,11 +8,24 @@ export default function CameraComponent({ onCapture }) {
     const [imageData, setImageData] = useState(null);
     const [cameraError, setCameraError] = useState(null);
 
+    // カメラ設定の品質を向上
+    const videoConstraints = {
+        width: 1280,
+        height: 720,
+        facingMode: "environment",
+        // 画質の設定を追加
+        advanced: [
+            { exposureMode: "auto" },
+            { focusMode: "continuous" }
+        ]
+    };
+
     // カメラで画像を撮影
     const handleCapture = useCallback(() => {
         if (webcamRef.current) {
             try {
-                const imageSrc = webcamRef.current.getScreenshot();
+                // より高品質なキャプチャを設定
+                const imageSrc = webcamRef.current.getScreenshot({ width: 1280, height: 720, quality: 0.95 });
                 if (imageSrc) {
                     setImageData(imageSrc);
                     if (onCapture) {
@@ -57,9 +70,7 @@ export default function CameraComponent({ onCapture }) {
                         audio={false}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
-                        videoConstraints={{
-                            facingMode: 'environment'
-                        }}
+                        videoConstraints={videoConstraints}
                         onUserMediaError={handleCameraError}
                     />
                 ) : (

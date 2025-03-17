@@ -33,6 +33,10 @@ export default function Home() {
   const [searchError, setSearchError] = useState<string | null>(null);
   const [selectedResult, setSelectedResult] = useState<SearchResult | null>(null);
 
+  // 状態変数を追加
+  const [orderNumber, setOrderNumber] = useState('');
+  const [deliveryDate, setDeliveryDate] = useState('');
+
   // 設定変更時のハンドラ
   const handleConfigChange = (newConfig: any) => {
     setConfig(newConfig);
@@ -70,6 +74,9 @@ export default function Home() {
 
       if (data.success) {
         setExtractedText(data.text);
+        // 追加の情報を状態に保存
+        setOrderNumber(data.orderNumber || '');
+        setDeliveryDate(data.deliveryDate || '');
         // 抽出したテキストを検索キーワードとして設定
         setConfig({
           ...config,
@@ -199,6 +206,8 @@ export default function Home() {
         text={extractedText}
         isLoading={isLoading}
         error={error}
+        orderNumber={orderNumber}
+        deliveryDate={deliveryDate}
       />
 
       {extractedText && (

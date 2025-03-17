@@ -49,9 +49,21 @@ export async function POST(request) {
         // レスポンスからテキストを取得
         const extractedText = response.choices[0]?.message?.content || '';
 
+        // 注文番号パターン（4桁-4桁-4桁）を抽出
+        const orderNumberPattern = /\b\d{4}-\d{4}-\d{4}\b/;
+        const orderNumberMatch = extractedText.match(orderNumberPattern);
+        const orderNumber = orderNumberMatch ? orderNumberMatch[0] : '';
+
+        // お届け日時パターン（○月○日）を抽出
+        const deliveryDatePattern = /\d+月\d+日/;
+        const deliveryDateMatch = extractedText.match(deliveryDatePattern);
+        const deliveryDate = deliveryDateMatch ? deliveryDateMatch[0] : '';
+
         return NextResponse.json({
             success: true,
-            text: extractedText
+            text: extractedText,
+            orderNumber,
+            deliveryDate
         });
     } catch (error) {
         console.error('テキスト抽出エラー:', error);

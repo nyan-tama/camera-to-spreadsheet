@@ -1,6 +1,6 @@
 'use client';
 
-export default function TextExtractionDisplay({ text, isLoading, error }) {
+export default function TextExtractionDisplay({ text, isLoading, error, orderNumber, deliveryDate }) {
     return (
         <div className="result-container">
             <h3>抽出結果:</h3>
@@ -13,14 +13,29 @@ export default function TextExtractionDisplay({ text, isLoading, error }) {
             )}
 
             {error && (
-                <div className="error-message">
-                    <p>{error}</p>
+                <div className="error-container">
+                    <p className="error-message">{error}</p>
                 </div>
             )}
 
             {!isLoading && !error && text && (
-                <div className="text-result">
-                    <p>{text}</p>
+                <div>
+                    {orderNumber && (
+                        <div className="extracted-info">
+                            <h4>注文番号:</h4>
+                            <p>{orderNumber}</p>
+                        </div>
+                    )}
+
+                    {deliveryDate && (
+                        <div className="extracted-info">
+                            <h4>お届け日時:</h4>
+                            <p>{deliveryDate}</p>
+                        </div>
+                    )}
+
+                    <h4>抽出されたテキスト:</h4>
+                    <p>{text || '抽出されたテキストはありません'}</p>
                 </div>
             )}
 
