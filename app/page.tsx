@@ -6,6 +6,11 @@ import CameraComponent from './components/CameraComponent';
 import TextExtractionDisplay from './components/TextExtractionDisplay';
 import SearchResultsDisplay from './components/SearchResultsDisplay';
 
+interface SearchResult {
+  cellReference: string;
+  // その他必要なプロパティ
+}
+
 export default function Home() {
   const SPREADSHEET_ID = '19iqgmNP3v_9AMMAx48f1_HhnMtgr5U4EWBhtS0vblCE';
 
@@ -22,7 +27,7 @@ export default function Home() {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
-  const [selectedResult, setSelectedResult] = useState(null);
+  const [selectedResult, setSelectedResult] = useState<SearchResult | null>(null);
 
   // 設定変更時のハンドラ
   const handleConfigChange = (newConfig: any) => {
