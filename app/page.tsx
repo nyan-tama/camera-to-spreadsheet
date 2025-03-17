@@ -8,7 +8,11 @@ import SearchResultsDisplay from './components/SearchResultsDisplay';
 
 interface SearchResult {
   cellReference: string;
-  // その他必要なプロパティ
+  sheetName: string;
+  rowIndex: number;
+  name: string;
+  company: string;
+  // 他にも使われているプロパティがあれば追加
 }
 
 export default function Home() {
